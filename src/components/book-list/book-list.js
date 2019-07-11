@@ -5,23 +5,35 @@ import BookListItem from '../book-list-item';
 import './book-list.css';
 
 import { withBookstoreService } from '../hoc';
-import { booksLoaded, bookRequested } from '../../actions';
+import { booksLoaded, bookRequested, booksError } from '../../actions';
 import { compose } from '../../utils';
 import Spinner from '../spinner';
+import ErrorIndicator from '../error-indicator';
 
 class BookList extends Component {
 	componentDidMount() {
-		const { bookstoreService, booksLoaded, bookRequested } = this.props;
+		const { 
+			bookstoreService, 
+			booksLoaded, 
+			bookRequested, 
+			booksError } = this.props;
+
 		bookRequested();
 		bookstoreService.getBooks()
-			.then((data) => booksLoaded(data));
+			.then((data) => booksLoaded(data))
+			.catch((err) => booksError(err));
+
 	}
 
 	render() {
-		const { books, loading } = this.props;
+		const { books, loading, error } = this.props;
 
 		if (loading) {
 			return <Spinner />
+		}
+
+		if (error) {
+			return <ErrorIndicator />
 		}
 
 		return ( 
@@ -39,13 +51,14 @@ class BookList extends Component {
 	}
 }
 
-const mapStateToProps = ({ books, loading }) => {
-	return { books, loading };
+const mapStateToProps = ({ books, loading, error }) => {
+	return { books, loading, error };
 };
 
 const mapDispatchToProps = {
 	booksLoaded,
-	bookRequested
+	bookRequested,
+	booksError
 };
 
 export default compose(
