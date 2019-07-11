@@ -5,8 +5,8 @@ import './shopping-cart-table.css';
 
 import { 
 	bookAddedToCart, 
-	bookRemoveFromCart, 
-	allBooksRemoveFromCart } from '../../actions';
+	bookRemovedFromCart, 
+	allBooksRemovedFromCart } from '../../actions';
 
 const ShoppingCartTable = ({ items, total, onIncrease, onDecrease, onDelete }) => {
 	const renderRow = (item, idx) => {
@@ -61,7 +61,7 @@ const ShoppingCartTable = ({ items, total, onIncrease, onDecrease, onDelete }) =
 	);
 };
 
-const mapStateToProps = ({ cartItems, orderTotal }) => {
+const mapStateToProps = ({ shoppingCart: { cartItems, orderTotal } }) => {
 	return {
 		items: cartItems,
 		total: orderTotal
@@ -70,8 +70,8 @@ const mapStateToProps = ({ cartItems, orderTotal }) => {
 
 const mapDispatchToProps = {
 	onIncrease: bookAddedToCart,
-	onDecrease: bookRemoveFromCart,
-	onDelete: allBooksRemoveFromCart
+	onDecrease: bookRemovedFromCart,
+	onDelete: allBooksRemovedFromCart
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ShoppingCartTable);
