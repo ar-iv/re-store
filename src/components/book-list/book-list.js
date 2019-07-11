@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import BookListItem from '../book-list-item';
@@ -7,20 +7,24 @@ import './book-list.css';
 import { withBookstoreService } from '../hoc';
 import { booksLoaded } from '../../actions';
 import { compose } from '../../utils';
+import Spinner from '../spinner';
 
 class BookList extends Component {
 	componentDidMount() {
-		const { bookstoreService } = this.props;
-		const data = bookstoreService.getBooks();
-		console.log(data);
-
-		this.props.booksLoaded(data);
+		const { bookstoreService, booksLoaded } = this.props;
+		bookstoreService.getBooks()
+			.then((data) => booksLoaded(data));
 	}
 
 	render() {
-		const { books } = this.props;
+		const { books, loading } = this.props;
+
+		if (loading) {
+			return <Spinner />
+		}
+
 		return ( 
-			<ul>
+			<ul className="book-list">
 				{
 					books.map((book) => {
 						return(
@@ -29,12 +33,13 @@ class BookList extends Component {
 					})
 				}
 			</ul>
+
 		);
 	}
 }
 
-const mapStateToProps = ({ books }) => {
-	return { books };
+const mapStateToProps = ({ books, loading }) => {
+	return { books, loading };
 };
 
 const mapDispatchToProps = {
