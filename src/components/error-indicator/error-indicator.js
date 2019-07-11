@@ -5,7 +5,7 @@ import './error-indicator.css';
 const ErrorIndicator = () => {
   return (
     <div className="error-indicator">
-      <i class="fas fa-exclamation-circle error-icon" />
+      <i className="fas fa-exclamation-circle error-icon" />
       <span className="boom">Error!</span>
       <span> 
         something has gone terribly wrong
