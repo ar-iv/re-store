@@ -4,10 +4,10 @@ import BookListItem from '../book-list-item';
 
 const CartPage = () => {
 	return(
-		<dev>
+		<div>
 			<h1>Welcome to Cart</h1>
 			<BookListItem book={[]} />
-		</dev>
+		</div>
 	);
 }
 
